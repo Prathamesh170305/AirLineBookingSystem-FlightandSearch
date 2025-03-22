@@ -53,24 +53,43 @@ class FlightRepository {
     }
 
     async getFlight(flightId) {
-        const flight = await Flights.findByPk(flightId);
-        return flight;
-    }
-    catch(error) {
-        console.log("Something is wrong in the flight-repo(getflight) ");
-        throw { error };
+        try {
+            const flight = await Flights.findByPk(flightId);
+            return flight;
+        }
+
+        catch (error) {
+            console.log("Something is wrong in the flight-repo(getflight) ");
+            throw { error };
+        }
     }
 
     async getAllFlights(filter) {
-        const filterObject = this.#createFilter(filter);
-        const flights = await Flights.findAll({
-            where: filterObject
-        });
-        return flights;
+        try {
+            const filterObject = this.#createFilter(filter);
+            const flights = await Flights.findAll({
+                where: filterObject
+            });
+            return flights;
+        }
+
+        catch (error) {
+            console.log("Something is wrong in the flight-repo(getAllflight) ");
+            throw { error };
+        }
     }
-    catch(error) {
-        console.log("Something is wrong in the flight-repo(getAllflight) ");
-        throw { error };
+
+    async updateFlights(flightId,data){
+        try {
+            await Flights.update(data,{
+                where:{
+                    id:flightId
+                }
+            });
+        } catch (error) {
+            console.log("Something is wrong in the flight-repo(updateFlights) ");
+            throw { error };
+        }
     }
 }
 
